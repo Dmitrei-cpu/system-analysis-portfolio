@@ -1,0 +1,28 @@
+@startuml
+title Процесс "Заявка на кредит" (BPMN)
+
+|#LightBlue|Сотрудник|
+start
+:Сбор данных клиента (UserTask);
+:Сканирование паспорта (ServiceTask);
+:Отправка заявки в систему (ServiceTask);
+:Проверка документов (ServiceTask);
+
+if (Документы валидны?) then (нет)
+  :Отказ по документам (ServiceTask);
+else (да)
+  :Скоринг (ServiceTask);
+  if (Скоринг одобрен?) then (нет)
+    :Отказ по скорингу (ServiceTask);
+  else (да)
+    :Одобрение кредита (ServiceTask);
+    :Отправить одобрение (ServiceTask);
+    :Получено одобрение (ServiceTask);
+  endif
+endif
+
+:Формирование ответа (ServiceTask);
+:Передача ответа клиенту (UserTask);
+stop
+
+@enduml

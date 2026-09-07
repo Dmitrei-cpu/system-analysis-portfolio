@@ -1,0 +1,32 @@
+@startuml
+'https://plantuml.com/use-case-diagram
+
+left to right direction
+
+Actor Пользователь as User
+note top of User: Обычный\nпользователь\nмессенджера
+
+(Открыть все контакты) as (showAllContacts)
+(Открыть контакт) as (showContact)
+(Создать новый контакт) as (createContact)
+(Позвонить) as (makeCall)
+(Открыть все чаты) as (showAllChats)
+(Открыть чат) as (openChat)
+(Написать сообщение) as (writeMessage)
+(Создать новый чат) as (createNewChat)
+(Удалить чат) as (deleteChat)
+
+User -- (showAllContacts)
+showAllContacts -.> showContact: <<include>>
+showContact <.- makeCall: <<extend>>
+showAllContacts <.- createContact: <<extend>>
+
+User -- (showAllChats)
+showAllChats -.> openChat: <<include>>
+openChat -.> writeMessage: <<include>>
+openChat <.- makeCall: <<extend>>
+openChat <.- deleteChat: <<extend>>
+showAllChats <.- deleteChat: <<extend>>
+showAllChats <.- createNewChat: <<extend>>
+
+@enduml

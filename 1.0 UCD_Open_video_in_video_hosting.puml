@@ -1,0 +1,32 @@
+@startuml
+'https://plantuml.com/use-case-diagram
+
+left to right direction
+
+Actor Пользователь as User
+note top of User: Обычный\nпользователь\nвидеохостинга
+
+(Открыть видео) as (openVideo)
+(Включить/поставить \nвидео на паузу) as (playPauseVideo)
+(Поставить оценку) as (rateVideo)
+(Поставить "Понравилось") as (likeVideo)
+(Поставить "Не понравилось") as (dislikeVideo)
+(Открыть настройки видео) as (openSettings)
+(Настроить качество) as (configureQuality)
+(Настроить скорость) as (configureSpeed)
+(Настроить субтитры) as (configureSubtitles)
+
+
+User -- (openVideo)
+openVideo -.> playPauseVideo: <<include>>
+
+openVideo -.> rateVideo: <<include>>
+rateVideo -.> likeVideo: <<include>>
+rateVideo -.> dislikeVideo: <<include>>
+
+openVideo -.> openSettings: <<include>>
+openSettings <.- configureQuality: <<extend>>
+openSettings <.- configureSpeed: <<extend>>
+openSettings <.- configureSubtitles: <<extend>>
+
+@enduml
