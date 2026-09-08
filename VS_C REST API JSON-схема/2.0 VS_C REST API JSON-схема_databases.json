@@ -1,0 +1,29 @@
+{
+  "orderId": "ORD-001234",
+  "customerId": "CUST-ABC12345",
+  "createdAt": "2025-01-15T10:30:00Z",
+  "updatedAt": "2025-01-16T14:20:00Z",
+  "status": "PROCESSING",
+  "items": [
+    {
+      "productId": "PRD-001",
+      "name": "Кроссовки Nike Air Max",
+      "quantity": 2,
+      "price": 7990.50
+    },
+    {
+      "productId": "PRD-002",
+      "name": "Футболка Adidas",
+      "quantity": 3,
+      "price": 2499.00
+    }
+  ],
+  "deliveryAddress": {
+    "street": "ул. Тверская",
+    "house": "15",
+    "apartment": "42",
+    "city": "Москва",
+    "postalCode": "101000"
+  },
+  "totalAmount": 10489.50
+}

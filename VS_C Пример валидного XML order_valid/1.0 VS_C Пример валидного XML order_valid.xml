@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<order xmlns="http://example.com/order" version="1.0">
+  <orderId>ORD-001234</orderId>
+  <customerId>CUST-ABC12345</customerId>
+  <createdAt>2025-01-15T10:30:00Z</createdAt>
+  <updatedAt>2025-01-16T14:20:00Z</updatedAt>
+  <status>CREATED</status>
+  <items>
+    <item id="item_1">
+      <productId>PRD-001</productId>
+      <name>Кроссовки Nike Air Max</name>
+      <quantity>2</quantity>
+      <price>7990.50</price>
+      <currency>RUB</currency>
+    </item>
+    <item id="item_2">
+      <productId>PRD-002</productId>
+      <name>Футболка Adidas</name>
+      <quantity>3</quantity>
+      <price>2499.00</price>
+      <currency>RUB</currency>
+    </item>
+  </items>
+  <deliveryAddress>
+    <street>ул. Тверская</street>
+    <house>15</house>
+    <apartment>42</apartment>
+    <city>Москва</city>
+    <postalCode>101000</postalCode>
+    <country>Россия</country>
+  </deliveryAddress>
+  <totalAmount>0</totalAmount>
+</order>

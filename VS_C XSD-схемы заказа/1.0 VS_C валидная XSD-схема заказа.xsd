@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="http://example.com/order"
+           xmlns="http://example.com/order"
+           elementFormDefault="qualified">
+
+  <!-- Корневой элемент -->
+  <xs:element name="Order" type="OrderType"/>
+
+  <!-- Тип заказа -->
+  <xs:complexType name="OrderType">
+    <xs:sequence>
+      <xs:element name="orderId" type="OrderIdType"/>
+      <xs:element name="customerId" type="CustomerIdType"/>
+      <xs:element name="createdAt" type="xs:dateTime"/>
+      <xs:element name="updatedAt" type="xs:dateTime" minOccurs="0"/>
+      <xs:element name="status" type="StatusType" minOccurs="0"/>
+      <xs:element name="items" type="ItemsType"/>
+      <xs:element name="deliveryAddress" type="DeliveryAddressType"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <!-- Тип для OrderId с паттерном -->
+  <xs:simpleType name="OrderIdType">
+    <xs:restriction base="xs:string">
+      <xs:pattern value="ORD-[0-9]{6}"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- Тип для CustomerId -->
+  <xs:simpleType name="CustomerIdType">
+    <xs:restriction base="xs:string">
+      <xs:pattern value="CUST-[A-Z0-9]{8}"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- Тип для статуса (демонстрация enum) -->
+  <xs:simpleType name="StatusType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="CREATED"/>
+      <xs:enumeration value="PROCESSING"/>
+      <xs:enumeration value="COMPLETED"/>
+      <xs:enumeration value="CANCELLED"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- Тип для списка товаров -->
+  <xs:complexType name="ItemsType">
+    <xs:sequence>
+      <xs:element name="item" type="ItemType" minOccurs="1" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <!-- Тип для одного товара -->
+  <xs:complexType name="ItemType">
+    <xs:sequence>
+      <xs:element name="productId" type="xs:string"/>
+      <xs:element name="name" type="xs:string"/>
+      <xs:element name="quantity" type="xs:positiveInteger"/>
+      <xs:element name="price" type="PriceType"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <!-- Тип для цены -->
+  <xs:simpleType name="PriceType">
+    <xs:restriction base="xs:decimal">
+      <xs:minInclusive value="0"/>
+      <xs:fractionDigits value="2"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <!-- Тип для адреса доставки -->
+  <xs:complexType name="DeliveryAddressType">
+    <xs:sequence>
+      <xs:element name="street" type="xs:string"/>
+      <xs:element name="house" type="xs:string"/>
+      <xs:element name="apartment" type="xs:string" minOccurs="0"/>
+      <xs:element name="city" type="xs:string"/>
+      <xs:element name="postalCode" type="PostalCodeType"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <!-- Тип для почтового индекса -->
+  <xs:simpleType name="PostalCodeType">
+    <xs:restriction base="xs:string">
+      <xs:pattern value="[0-9]{6}"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+</xs:schema>
