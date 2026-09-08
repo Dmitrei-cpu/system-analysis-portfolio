@@ -1,0 +1,12 @@
+Проверка API-ключа в заголовке (httpbin) CMD
+curl -X GET "https://httpbin.org/headers" -H "X-API-Key: my_secret_key_123"
+Ответ:
+{
+  "headers": {
+    "Accept": "*/*",
+    "Host": "httpbin.org",
+    "User-Agent": "curl/8.13.0",
+    "X-Amzn-Trace-Id": "Root=1-6a8ecc19-46a3c834157a5ee21c5384d8",
+    "X-Api-Key": "my_secret_key_123"
+  }
+}

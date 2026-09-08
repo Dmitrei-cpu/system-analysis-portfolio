@@ -1,0 +1,23 @@
+@startuml
+'https://plantuml.com/use-case-diagram
+
+left to right direction
+
+Actor Пользователь as User
+note top of User: Обычный\nпользователь\nмаркетплейса
+
+(Посмотреть бренды\nсписком) as (getListBrands)
+(Поиск бренда) as (searchBrand)
+(Выбрать бренд из списка) as (chooseBrandFromList)
+(Перейти к товарам бренда) as (openBrandItems)
+(Отсортировать бренды) as (sortBrands)
+
+User -- (getListBrands)
+getListBrands -.> searchBrand: <<include>>
+getListBrands -.> chooseBrandFromList: <<include>>
+chooseBrandFromList <.- sortBrands: <<extend>>
+sortBrands -.> openBrandItems: <<include>>
+searchBrand -.> openBrandItems: <<include>>
+chooseBrandFromList -.> openBrandItems: <<include>>
+
+@enduml

@@ -1,0 +1,43 @@
+@startuml
+left to right direction
+skinparam actorStyle awesome
+skinparam useCaseStyle awesome
+
+actor "Пользователь" as User
+actor "Контент-менеджер" as Manager
+
+rectangle "Маркетплейс – категория «Одежда»" {
+  
+  ' ----- Use Case пользователя -----
+  usecase "Просмотр списка брендов" as UC_View
+  usecase "Поиск бренда по названию" as UC_Search
+  usecase "Сортировка брендов\n(в алфавитном порядке)" as UC_Sort
+  usecase "Выбор бренда из списка" as UC_Select
+  usecase "Переход к товарам и баннерам бренда" as UC_Transition
+  
+  ' ----- Use Case контент-менеджера -----
+  usecase "Создание бренда\n(с привязкой коллекции товаров)" as UC_Create
+  usecase "Изменение бренда\n(с обновлением коллекции)" as UC_Update
+  usecase "Удаление бренда" as UC_Delete
+  
+  ' ----- Обобщение для менеджера (опционально) -----
+  usecase "Управление брендами" as UC_Manage
+  UC_Manage <|-- UC_Create
+  UC_Manage <|-- UC_Update
+  UC_Manage <|-- UC_Delete
+}
+
+' ----- Связи пользователя -----
+User --> UC_View
+
+' Отношения между Use Case пользователя
+UC_View ..> UC_Search : <<include>>
+UC_View <.. UC_Sort : <<extend>>
+
+UC_View ..> UC_Select : <<include>>
+UC_Select ..> UC_Transition : <<include>>
+
+' ----- Связи контент-менеджера -----
+Manager --> UC_Manage
+
+@enduml

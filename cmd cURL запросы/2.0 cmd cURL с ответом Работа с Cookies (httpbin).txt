@@ -1,0 +1,8 @@
+Работа с Cookies (httpbin) CMD
+curl -X GET "https://httpbin.org/cookies/set?session=abc123" -c cookies.txt -L
+Ответ:
+{
+  "cookies": {
+    "session": "abc123"
+  }
+}

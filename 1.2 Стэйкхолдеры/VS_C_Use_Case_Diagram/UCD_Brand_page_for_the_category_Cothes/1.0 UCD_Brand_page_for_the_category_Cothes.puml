@@ -1,0 +1,61 @@
+@startuml
+' ============================================================
+'  Use Case Diagram: Управление брендами на маркетплейсе
+'  Бизнес-требование: страница брендов для категории "Одежда"
+' ============================================================
+
+' ----- Настройка внешнего вида -----
+left to right direction
+skinparam actorStyle awesome
+skinparam packageStyle rectangle
+
+' ----- Акторы (Actor) -----
+actor "Пользователь" as User
+actor "Контент-менеджер" as Manager
+
+' ----- Границы системы (System Boundary) -----
+rectangle "Маркетплейс — категория «Одежда»" {
+  
+  ' ----- Use Case для пользователя -----
+  usecase "Просмотр списка брендов" as UC_View
+  usecase "Поиск бренда по названию" as UC_Search
+  usecase "Сортировка брендов\n(в алфавитном порядке)" as UC_Sort
+  usecase "Выбор бренда из списка" as UC_Select
+  usecase "Переход к товарам и\nбаннерам бренда" as UC_Transition
+  
+  ' ----- Use Case для контент-менеджера -----
+  usecase "Создание бренда" as UC_Create
+  usecase "Изменение бренда" as UC_Update
+  usecase "Удаление бренда" as UC_Delete
+  
+  ' ----- Обобщение для менеджера (generalization) -----
+  usecase "Управление брендами" as UC_Manage
+  UC_Manage <|-- UC_Create
+  UC_Manage <|-- UC_Update
+  UC_Manage <|-- UC_Delete
+}
+
+' ----- Связи пользователя (ассоциации) -----
+User --> UC_View
+User --> UC_Search
+User --> UC_Sort
+User --> UC_Select
+User --> UC_Transition
+
+' ----- Связи контент-менеджера (ассоциации) -----
+Manager --> UC_Manage
+
+' ----- Отношения между Use Case (include / extend) -----
+' При просмотре списка ПОИСК является обязательной частью (include)
+UC_View ..> UC_Search : <<include>>
+
+' Выбор бренда из списка — обязательная часть просмотра (include)
+UC_View ..> UC_Select : <<include>>
+
+' Переход к товарам — обязательная часть выбора бренда (include)
+UC_Select ..> UC_Transition : <<include>>
+
+' Сортировка — опциональное расширение просмотра (extend)
+UC_View <.. UC_Sort : <<extend>>
+
+@enduml
