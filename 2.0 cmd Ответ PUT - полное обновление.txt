@@ -1,9 +1,0 @@
-PUT — полное обновление CMD
-curl -X PUT "https://jsonplaceholder.typicode.com/posts/1" ^ -H "Content-Type: application/json" ^ -d "{\"id\":1,\"title\":\"Обновлённый пост\",\"body\":\"Новый текст\",\"userId\":1}"
-Ответ:
-{
-  "id": 1,
-  "title": "Обновлённый пост",
-  "body": "Новый текст",
-  "userId": 1
-}
