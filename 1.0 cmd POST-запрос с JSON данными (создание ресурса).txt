@@ -1,9 +1,0 @@
-# POST-запрос с JSON данными (создание ресурса) cmd
-curl -X POST "https://jsonplaceholder.typicode.com/posts" ^ -H "Content-Type: application/json" ^ -d "{\"title\":\"Новый пост\",\"body\":\"Текст поста\",\"userId\":1}"
-Ответ:
-{
-  "title": "Новый пост",
-  "body": "Текст поста",
-  "userId": 1,
-  "id": 101
-}
