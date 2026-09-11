@@ -61,7 +61,7 @@
 *   [Декомпозиция требований](docs/SDLC_and_Requirements/Декомпозиция_требований.md)
 *   [Этапы работы с требованиями](docs/SDLC_and_Requirements/Этапы_требований.md)
 *   
-*   «Коллекция доступна для скачивания и импорта в Postman — из файла Collections Brand Management API
+*   «Коллекция доступна для скачивания и импорта в Postman — при развёртывании папки Collections Brand Management API
 *   
 ## 🚀 Как со мной связаться
 
