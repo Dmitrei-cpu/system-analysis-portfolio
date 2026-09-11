@@ -60,7 +60,7 @@
 *   [Жизненный цикл ПО (SDLC)](docs/SDLC_and_Requirements/SDLC_и_жизненный_цикл_ПО.md)
 *   [Декомпозиция требований](docs/SDLC_and_Requirements/Декомпозиция_требований.md)
 *   [Этапы работы с требованиями](docs/SDLC_and_Requirements/Этапы_требований.md)
-
+«Коллекция доступна для скачивания и импорта в Postman — папка POSTMAN
 ## 🚀 Как со мной связаться
 
 *   **GitHub: https://github.com/Dmitrei-cpu
