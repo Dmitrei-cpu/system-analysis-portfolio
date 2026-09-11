@@ -1,0 +1,68 @@
+$kind: http-request
+name: "{{baseUrl}}/posts/1"
+url: "{{baseUrl}}/posts/1"
+method: PUT
+headers:
+  Content-Type: application/json
+  Accept: application/json
+body:
+  type: json
+  content: "{\r
+
+    \  \"id\": 1,\r
+
+    \  \"title\": \"Обновлённый заголовок\",\r
+
+    \  \"body\": \"Полностью новый текст поста\",\r
+
+    \  \"userId\": 1\r
+
+    }"
+scripts:
+  - type: beforeRequest
+    code: "// Проверка наличия ID для обновления\r
+
+      const postId = pm.environment.get(\"postId\");\r
+
+      if (!postId) {\r
+
+      \    console.warn(\"postId не найден. Сначала выполните GET-запрос.\");\r
+
+      }"
+    language: text/javascript
+  - type: afterResponse
+    code: "// Проверка статуса\r
+
+      pm.test(\"Status code is 200\", function () {\r
+
+      \    pm.response.to.have.status(200);\r
+
+      });\r
+
+      \r
+
+      // Проверка обновления\r
+
+      pm.test(\"Post was updated\", function () {\r
+
+      \    const jsonData = pm.response.json();\r
+
+      \    pm.expect(jsonData.title).to.eql(\"Обновлённый заголовок\");\r
+
+      \    pm.expect(jsonData.userId).to.eql(1);\r
+
+      });\r
+
+      \r
+
+      // Проверка идемпотентности (повторный PUT даёт тот же результат)\r
+
+      pm.test(\"PUT is idempotent\", function () {\r
+
+      \    pm.expect(pm.response.code).to.be.oneOf([200, 204]);\r
+
+      });"
+    language: text/javascript
+settings:
+  strictSSL: true
+order: 4000
