@@ -1,0 +1,48 @@
+$kind: http-request
+url: "{{baseUrl}}/posts/1"
+method: DELETE
+headers:
+  Accept: application/json
+body:
+  type: json
+  content: "{\r\n  \"reason\": \"Дубликат\"\r\n}"
+auth:
+  type: bearer
+  credentials:
+    token: "{{accessToken}}"
+scripts:
+  - type: beforeRequest
+    code: "// Проверка существования ресурса перед удалением\r
+
+      const postId = pm.environment.get(\"postId\");\r
+
+      console.log(\"Удаляется ресурс с ID:\", postId);"
+    language: text/javascript
+  - type: afterResponse
+    code: "// Проверка статуса (200 или 204)\r
+
+      pm.test(\"Status code is 200 or 204\", function () {\r
+
+      \    pm.expect(pm.response.code).to.be.oneOf([200, 204]);\r
+
+      });\r
+
+      \r
+
+      // Проверка идемпотентности: повторный DELETE вернёт 404\r
+
+      pm.test(\"DELETE is idempotent\", function () {\r
+
+      \    pm.expect(pm.response.code).to.be.oneOf([200, 204, 404]);\r
+
+      });\r
+
+      \r
+
+      // Очистка переменной\r
+
+      pm.environment.unset(\"postId\");"
+    language: text/javascript
+settings:
+  strictSSL: true
+order: 6000

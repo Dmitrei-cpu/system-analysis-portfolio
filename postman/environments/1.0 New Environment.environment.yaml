@@ -1,0 +1,14 @@
+name: New Environment
+values:
+  - key: baseUrl
+    value: 'https://jsonplaceholder.typicode.com'
+    description: ''
+  - key: accessToken
+    value: ''
+    description: ''
+  - key: apiKey
+    value: ''
+    description: ''
+  - key: createdPostId
+    value: ''
+color: 0
