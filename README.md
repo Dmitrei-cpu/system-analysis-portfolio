@@ -9,7 +9,7 @@
 2 - моделирование: создание диаграмм в нотациях BPMN, UML (Use Case, Activity, Sequence);
 3 - проектирование API: опыт работы с REST API, OpenAPI (Swagger), JSON-RPC, а также теория gRPC и GraphQL;
 4 - проектирование БД: основы реляционных (SQL, нормализация) и NoSQL (Redis, Mongo) баз данных;
-5 - инструменты: PlantUML, Draw.io, Git/GitHub, VS Code, Postman, Insomnia, cURL.
+5 - инструменты: PlantUML, Git/GitHub, VS Code, Postman, Insomnia, cURL.
 
 Образование и самообразование
 1 - профессиональная переподготовка: Аналитик данных (ФГБОУ ДПО ИРПО, 2025);
@@ -39,7 +39,7 @@
 Практика cURL и REST API
 Практические примеры работы с HTTP-методами и тестированием API.
 
-1 - GET, POST, PUT, DELETE, HEAD, OPTIONS запросы;
+1 - GET, POST, PUT, DELETE, HEAD, OPTIONS, QUERY запросы;
 2 - практика cURL - работа с REST API.
 
 Тестирование API в Postman, Insomnia и cURL
@@ -52,8 +52,8 @@
 Подробнее: ./06_Postman_Insomnia_ReqBin/README.md
 
 Инструмент	Методы	Скриншоты
-Postman	GET, POST, PUT, PATCH, DELETE, HEAD, OPTIONS, QUERY	8 скриншотов
-Insomnia	GET, POST, PUT, PATCH, DELETE, HEAD, OPTIONS, QUERY	9 скриншотов
+Postman	GET, POST, PUT, PATCH, DELETE, HEAD, OPTIONS, QUERY	8+ скриншотов
+Insomnia	GET, POST, PUT, PATCH, DELETE, HEAD, OPTIONS, QUERY	9+ скриншотов
 cURL	Все методы в CMD	Примеры команд
 Теоретические конспекты
 Документированные знания, которые я применяю на практике.
@@ -64,12 +64,52 @@ cURL	Все методы в CMD	Примеры команд
 
 Коллекция для Postman
 Коллекция доступна для скачивания и импорта в Postman. При развёртывании папки Collections Brand Management API.
+Выполненные HTTP-методы
+Метод	Назначение	Что проверяет
+GET	Получение данных	Статус 200, структура ответа, наличие id
+POST	Создание ресурса	Статус 201, сохранение id в переменную
+PUT	Полное обновление	Статус 200, идемпотентность
+PATCH	Частичное обновление	Статус 200, изменено только указанное поле
+DELETE	Удаление ресурса	Статус 204, пустое тело
+HEAD	Получение заголовков	Статус 200, пустое тело, наличие заголовков
+OPTIONS	Список методов	Статус 200, заголовок Allow со списком
+QUERY	GET с телом запроса	Статус 200, JSON с полем method: "QUERY"
+Настройка окружения
+Environment: My Environment.
+
+Переменная	Значение	Назначение
+baseUrl	http://172.20.10.6:5000	Базовый URL локального Flask-сервера
+accessToken	test_token_123	Токен для демонстрации Bearer-авторизации
+Auth на уровне папки (Folder Auth): Bearer Token -> {{ _.accessToken }}.
+
+Особенности работы
+1 - для методов PUT, PATCH, DELETE, HEAD, OPTIONS и QUERY использован локальный Flask-сервер с поддержкой всех методов, включая новый QUERY (RFC 10008, 2026);
+2 - для автоматизации проверок применены скрипты After-response на JavaScript;
+3 - в методе POST реализовано сохранение id созданного ресурса в переменную окружения createdPostId;
+4 - для метода QUERY сервер возвращает JSON с полем method: "QUERY", что подтверждает корректную обработку.
+
+Скриншоты
+В папке insomnia размещены 11 скриншотов, и 1 файл .yaml, insomnia папка с настройками окружения:
+
+1 - 01_insomnia_GET.png - GET запрос, 2/2 теста пройдено, ответ 200 OK;
+2 - 02_insomnia_POST.png - POST запрос, 1/1 тест, ответ 201 Created, сохранение ID;
+3 - 03_insomnia_PUT.png - PUT запрос, 1/1 тест, ответ 200 OK;
+4 - 04_insomnia_PATCH.png - PATCH запрос, 1/1 тест, ответ 200 OK;
+5 - 05_insomnia_DELETE.png - DELETE запрос, ответ 204 No Content;
+6 - 06_insomnia_HEAD.png - HEAD запрос, ответ 200 OK, пустое тело;
+7 - 07_insomnia_OPTIONS.png - OPTIONS запрос, ответ 200 OK, список методов;
+8 - 08_insomnia_QUERY.png - QUERY запрос, ответ 200 OK, method: "QUERY";
+9 - 09_insomnia_environment.png - настройка baseUrl и accessToken.
+
+Экспорт коллекции
+Коллекция запросов экспортирована в файл Insomnia_Brand_Management_API.yaml. Файл содержит все восемь запросов, настройки окружения и скрипты проверок. Коллекция может быть импортирована в Insomnia для повторного выполнения или изучения.
+
 
 Как со мной связаться
 1 - GitHub: https://github.com/Dmitrei-cpu;
 2 - Telegram: https://t.me/d_i_m_a_s_i_k_s;
 3 - Email: top277027@gmail.com.
 
-Открыт к предложениям и тестовым заданиям.
+Открыт к предложениям, а также к тестовым и техническим заданиям
 
 Последнее обновление: Сентябрь 2026.
