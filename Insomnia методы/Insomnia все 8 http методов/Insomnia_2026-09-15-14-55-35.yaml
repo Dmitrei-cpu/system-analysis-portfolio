@@ -1,0 +1,277 @@
+type: collection.insomnia.rest/5.0
+schema_version: "5.1"
+name: Insomnia Brand Management API
+meta:
+  id: wrk_e6ab8148cc954a1999104dae17788675
+  created: 1789243584109
+  modified: 1789466047729
+  description: test_token_123
+collection:
+  - url: "{{ _.baseUrl }}/posts/1"
+    name: GET
+    meta:
+      id: req_f3fb378a917745f8a6bf996ef8f8ea2d
+      created: 1789245385220
+      modified: 1789385346524
+      isPrivate: false
+      description: GET-запрос для получения поста по ID.
+      sortKey: -1789245385220
+    method: GET
+    parameters:
+      - name: userId
+        value: "1"
+        description: ""
+        disabled: false
+      - name: _limit
+        value: "5"
+        description: ""
+        disabled: false
+    headers:
+      - name: Accept
+        value: application/json
+        description: ""
+        disabled: false
+    authentication:
+      type: bearer
+      token: "{{ _.accessToken }}"
+    scripts:
+      afterResponse: |-
+        // Проверяем статус ответа
+        insomnia.test('Status code is 200', () => {
+          insomnia.expect(insomnia.response.code).to.eql(200);
+        });
+        // Проверяем, что в ответе есть id
+        insomnia.test('Response has id', () => {
+          insomnia.expect(insomnia.response.json()).to.have.property('id');
+        });
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: "{{ _.baseUrl }}/posts"
+    name: POST
+    meta:
+      id: req_8b9a080311f2434689beea1447d758ef
+      created: 1789296420408
+      modified: 1789317688307
+      isPrivate: false
+      description: ""
+      sortKey: -1789296420408
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+          "title": "Новый пост",
+          "body": "Описание проекта",
+          "userId": 1
+        }
+    headers:
+      - name: Content-Type
+        value: application/json
+    authentication:
+      type: bearer
+      token: "{{ _.accessToken }}"
+    scripts:
+      afterResponse: |-
+        // Проверяем статус 201 Created
+        insomnia.test('Status code is 201', () => {
+          insomnia.expect(insomnia.response.code).to.eql(201);
+        });
+        // Сохраняем ID созданного поста в переменную окружения
+        const response = insomnia.response.json();
+        if (response && response.id) {
+          insomnia.environment.set('createdPostId', response.id);
+        }
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: "{{ _.baseUrl }}/api/items/1"
+    name: PUT
+    meta:
+      id: req_e97adc8f73724a07b9e979db9e8b7b6b
+      created: 1789317363001
+      modified: 1789411197120
+      isPrivate: false
+      description: ""
+      sortKey: -1789317363001
+    method: PUT
+    body:
+      mimeType: application/json
+      text: |-
+        {
+          "name": "Кроссовки Nike Air Max 2025",
+          "price": 8500.00
+        }
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: Accept
+        value: application/json
+        description: ""
+        disabled: false
+    scripts:
+      afterResponse: |-
+        insomnia.test('Status code is 200', () => {
+          insomnia.expect(insomnia.response.code).to.eql(200);
+        });
+        insomnia.test('Item was fully updated', () => {
+          const data = insomnia.response.json();
+          insomnia.expect(data.name).to.eql('Кроссовки Nike Air Max 2025');
+          insomnia.expect(data.price).to.eql(8500.00);
+        });
+        insomnia.test('PUT is idempotent', () => {
+          insomnia.expect(insomnia.response.code).to.be.oneOf([200, 204]);
+        });
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: "{{ _.baseUrl }}/api/items/1"
+    name: PATCH
+    meta:
+      id: req_881d4855783244de9a70b7aae681d5f1
+      created: 1789317487024
+      modified: 1789400535082
+      isPrivate: false
+      description: ""
+      sortKey: -1789317487024
+    method: PATCH
+    body:
+      mimeType: application/json
+      text: |-
+        {
+          "price": 7990.00
+        }
+    headers:
+      - name: Content-Type
+        value: application/json
+    authentication:
+      type: bearer
+      token: "{{ _.accessToken }}"
+    scripts:
+      afterResponse: |-
+        insomnia.test('Status code is 200', () => {
+          insomnia.expect(insomnia.response.code).to.eql(200);
+        });
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: "{{ _.baseUrl }}/api/items/2"
+    name: DELETE
+    meta:
+      id: req_34fdc48344d741cdbeb4b1d8076f2ba6
+      created: 1789386031859
+      modified: 1789465742991
+      isPrivate: false
+      description: ""
+      sortKey: -1789386031859
+    method: DELETE
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: "{{ _.baseUrl }}/api/items"
+    name: QUERY
+    meta:
+      id: req_1f75efd0191248f1b116d6c2a84164d8
+      created: 1789401208608
+      modified: 1789465759960
+      isPrivate: false
+      description: ""
+      sortKey: -1789401208608
+    method: QUERY
+    body:
+      mimeType: application/json
+      text: |-
+        {
+          "filter": {
+            "name": "Adidas"
+          },
+          "limit": 10
+        }
+    headers:
+      - name: Content-Type
+        value: application/json
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: "{{ _.baseUrl }}/api/items"
+    name: OPTIONS
+    meta:
+      id: req_b75511920e9b464eaad6071634791b4a
+      created: 1789401515514
+      modified: 1789412240650
+      isPrivate: false
+      description: ""
+      sortKey: -1789401515514
+    method: OPTIONS
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: "{{ _.baseUrl }}/api/items/1"
+    name: HEAD
+    meta:
+      id: req_5f1067983e6e47288fef0bcf0e373d56
+      created: 1789401772627
+      modified: 1789414942748
+      isPrivate: false
+      description: ""
+      sortKey: -1789401772627
+    method: HEAD
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+cookieJar:
+  name: Default Jar
+  meta:
+    id: jar_87b9bcf7139c35398dd54e5b52518c8b2216bb0a
+    created: 1789243584117
+    modified: 1789416530586
+environments:
+  name: My Environment
+  meta:
+    id: env_87b9bcf7139c35398dd54e5b52518c8b2216bb0a
+    created: 1789243584116
+    modified: 1789462879108
+    isPrivate: false
+  data:
+    baseUrl: http://172.20.10.6:5000
+    accessToken: test_token_123
