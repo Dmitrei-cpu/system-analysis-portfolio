@@ -104,6 +104,7 @@ Auth на уровне папки (Folder Auth): Bearer Token -> {{ _.accessToke
 Экспорт коллекции
 Коллекция запросов экспортирована в файл Insomnia_Brand_Management_API.yaml. Файл содержит все восемь запросов, настройки окружения и скрипты проверок. Коллекция может быть импортирована в Insomnia для повторного выполнения или изучения.
 
+OpenAPI 3.1, OAS, Swagger, Redocly, Spectral, REST API, Idempotency-Key, API Key Auth, JSON Schema, PATCH, UUID, ISO 8601, пагинация, enum, $ref, компонентный подход, contract-first, API-first, валидация контракта в CI/CD
 
 Как со мной связаться
 1 - GitHub: https://github.com/Dmitrei-cpu;
