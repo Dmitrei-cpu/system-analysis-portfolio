@@ -1,0 +1,37 @@
+@startuml
+title Диаграмма 4: Переход к товарам бренда
+
+actor "Пользователь" as User #B2DFDB
+boundary "UI: Страница брендов" as UI #BBDEFB
+control "Контроллер брендов" as Controller #FFF9C4
+entity "Бренд (сущность)" as BrandEntity #FFE0B2
+entity "Товар (сущность)" as ProductEntity #FFE0B2
+
+User -> UI: 1. Кликает по карточке бренда
+activate UI
+
+UI -> Controller: 2. GET /api/brands/{brandId}/products
+activate Controller
+
+Controller -> BrandEntity: 3. Найти бренд по ID
+activate BrandEntity
+BrandEntity --> Controller: 4. Бренд найден (название, логотип)
+deactivate BrandEntity
+
+Controller -> ProductEntity: 5. SELECT * FROM products WHERE brand_id = {brandId}
+activate ProductEntity
+ProductEntity --> Controller: 6. Список товаров, привязанных к бренду
+deactivate ProductEntity
+
+alt У бренда есть товары
+  Controller --> UI: 7. 200 OK (товары + баннеры)
+  UI --> User: 8. Отображает страницу с товарами и баннерами
+else Товары отсутствуют
+  Controller --> UI: 7. 200 OK (пустой массив)
+  UI --> User: 8. Показывает «Нет товаров для этого бренда»
+end
+
+deactivate Controller
+deactivate UI
+
+@enduml

@@ -1,0 +1,32 @@
+@startuml
+title Диаграмма 2: Поиск бренда по названию
+
+actor "Пользователь" as User #B2DFDB
+boundary "UI: Страница брендов" as UI #BBDEFB
+control "Контроллер брендов" as Controller #FFF9C4
+entity "База данных брендов" as DB #FFE0B2
+
+User -> UI: 1. Вводит текст в поле поиска
+activate UI
+
+UI -> Controller: 2. GET /api/brands?search=название
+activate Controller
+
+Controller -> DB: 3. SELECT * FROM brands WHERE name LIKE '%название%'
+activate DB
+
+DB --> Controller: 4. Отфильтрованный список брендов
+deactivate DB
+
+alt Список не пуст
+  Controller --> UI: 5. 200 OK (массив брендов)
+  UI --> User: 6. Отображает найденные бренды
+else Список пуст
+  Controller --> UI: 5. 200 OK (пустой массив)
+  UI --> User: 6. Показывает сообщение «Ничего не найдено»
+end
+
+deactivate Controller
+deactivate UI
+
+@enduml

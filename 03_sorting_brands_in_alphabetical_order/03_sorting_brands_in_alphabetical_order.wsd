@@ -1,0 +1,25 @@
+@startuml
+title Диаграмма 3: Сортировка брендов в алфавитном порядке
+
+actor "Пользователь" as User #B2DFDB
+boundary "UI: Страница брендов" as UI #BBDEFB
+control "Контроллер брендов" as Controller #FFF9C4
+
+User -> UI: 1. Нажимает кнопку «Сортировать по алфавиту»
+activate UI
+
+UI -> Controller: 2. GET /api/brands?sort=name_asc
+activate Controller
+
+note over Controller: 3. Контроллер запрашивает отсортированные бренды из БД
+
+Controller --> UI: 4. 200 OK (отсортированный список)
+deactivate Controller
+
+UI --> User: 5. Обновляет отображение списка (А→Я)
+
+note over UI: При повторном нажатии – обратный порядок (Я→А)
+
+deactivate UI
+
+@enduml

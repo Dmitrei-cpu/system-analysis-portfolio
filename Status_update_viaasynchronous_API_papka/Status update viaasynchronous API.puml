@@ -1,0 +1,41 @@
+@startuml
+
+Actor "Пользователь" as client
+participant "Front" as front
+participant "status-service" as back1
+database "Database" as db
+queue "kafka.status-service.order.status" as q1
+participant "status-tree-provider" as back2
+
+autonumber
+activate client
+client -> front: Клиент ожидает \n обновление статуса
+activate front
+loop
+front -> back1: Polling-запросы на GET\n /api/v1/status-service/order/{id}/status
+activate back1
+end
+==Получение статуса из дерева расчета==
+back2 -->> q1: Запись событий со статусом
+activate q1
+back1 <<-- q1: Чтение событий со \n статусами по заказам
+deactivate q1
+==Проверка отличия статуса==
+back1 -> db: Проверка на отличие \n нового статуса от старого
+activate db
+alt Статус прежний
+back1 <-- db: Статус не отличается
+back1 -> back1: Ничего не делаем
+else Статус новый
+back1 <-- db: Статус отличается
+back1 -> db: Запись актуального \n статуса заказа
+back1 <-- db: Статус записан
+deactivate db
+front <-- back1: Отправка нового статуса
+deactivate back1
+client <-- front: Отображение статуса
+deactivate front
+deactivate client
+end
+
+@enduml

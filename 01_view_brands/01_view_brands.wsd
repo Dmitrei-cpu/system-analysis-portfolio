@@ -1,0 +1,30 @@
+' ==================================================================
+'  ДИАГРАММА 1: Просмотр списка брендов
+' ==================================================================
+
+title Диаграмма 1: Просмотр списка брендов
+
+actor "Пользователь" as User #B2DFDB
+boundary "UI: Страница брендов" as UI #BBDEFB
+control "Контроллер брендов" as Controller #FFF9C4
+entity "База данных брендов" as DB #FFE0B2
+
+User -> UI: 1. Открывает страницу «Бренды»
+activate UI
+
+UI -> Controller: 2. GET /api/brands
+activate Controller
+
+Controller -> DB: 3. SELECT * FROM brands
+activate DB
+
+DB --> Controller: 4. Список брендов (id, name, logo)
+deactivate DB
+
+Controller --> UI: 5. 200 OK (JSON)
+deactivate Controller
+
+UI --> User: 6. Отображает карточки брендов
+deactivate UI
+
+@enduml

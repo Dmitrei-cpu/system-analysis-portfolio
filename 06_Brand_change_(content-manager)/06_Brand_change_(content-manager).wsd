@@ -1,0 +1,35 @@
+@startuml
+title Диаграмма 6: Изменение бренда (контент-менеджер)
+
+actor "Контент-менеджер" as Manager #B2DFDB
+boundary "UI: Админ-панель" as AdminUI #BBDEFB
+control "Контроллер брендов" as Controller #FFF9C4
+entity "База данных брендов" as DB #FFE0B2
+
+Manager -> AdminUI: 1. Выбирает бренд, открывает форму редактирования
+activate AdminUI
+
+AdminUI -> Controller: 2. PUT /api/brands/{brandId} (new data)
+activate Controller
+
+Controller -> DB: 3. Проверить, что новое название не занято (кроме этого бренда)
+activate DB
+DB --> Controller: 4. Уникальность подтверждена
+deactivate DB
+
+alt Валидация пройдена
+  Controller -> DB: 5. UPDATE brands SET ... WHERE id = {brandId}
+  activate DB
+  DB --> Controller: 6. Бренд обновлён
+  deactivate DB
+  Controller --> AdminUI: 7. 200 OK
+  AdminUI --> Manager: 8. «Бренд изменён»
+else Ошибка валидации
+  Controller --> AdminUI: 7. 400 Bad Request (например, название уже используется)
+  AdminUI --> Manager: 8. Отображает ошибку
+end
+
+deactivate Controller
+deactivate AdminUI
+
+@enduml

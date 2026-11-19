@@ -1,0 +1,44 @@
+@startuml
+
+Actor "Пользователь" as client
+box "Подразделение: Клиентские сервисы" #Lightblue
+participant "Front" as front
+participant "checkout-service" as back1
+database "Database" as db
+end box
+box "Подразделение: Cервисы доставки" #Lightgreen
+queue "kafka.order-service.order.create" as t1
+participant "order-service" as back2
+end box
+
+autonumber
+activate client
+client -> front: Переходит к \n созданию заказа
+activate front
+front -> back1: Запрос на добавление в корзину POST \n/api/v1/checkout-service/orders/create
+activate back1
+back1 -> db: Создание заказа
+activate db
+back1 <-- db: id созданного заказа
+deactivate db
+front <-- back1: 200 ОК с данными\n для заполнения заказа
+client <-- front: Введите данные\n по заказу
+client -> front: Вводит данные по адресу,\n дате и времени
+front -> back1: Передает данные по адресу,\n дате и времени POST \n/api/v1/checkout-service/orders/{id}/update
+back1 -> db: Дополнение данных \n заказа по id
+activate db
+back1 <-- db: Заказ обновлен
+deactivate db
+back1 ->> t1: Запись события с заказом
+activate t1
+front <-- back1: Заказ создан
+deactivate back1
+client <-- front: Отображение \n созданного заказа
+deactivate front
+deactivate client
+t1 <<- back2: Чтение событий с заказами
+deactivate t1
+activate back2
+deactivate back2
+
+@enduml
